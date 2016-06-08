@@ -8,16 +8,16 @@ namespace ScriptHub
     class ScriptStore : IScriptStore
     {
         Scripts _scripts;
-        string _path;
+        string _configFile;
 
-        public ScriptStore(string path)
+        public ScriptStore(string configFile)
         { 
-            if (!File.Exists(path))
+            if (!File.Exists(configFile))
             {
-                throw new FileNotFoundException(path);
+                throw new FileNotFoundException(configFile);
             }
 
-            _path = path;
+            _configFile = configFile;
 
             LoadScripts();
         }
@@ -26,7 +26,7 @@ namespace ScriptHub
         {
             var serializer = new XmlSerializer(typeof(Scripts));
 
-            using (FileStream fileStream = new FileStream(_path,FileMode.Open)) 
+            using (FileStream fileStream = new FileStream(_configFile,FileMode.Open)) 
             {
                 _scripts = (Scripts)serializer.Deserialize(fileStream);
             }
@@ -40,12 +40,19 @@ namespace ScriptHub
 
             SortListByName();
 
-            File.Move(_path, _path + ".backup");
-            using (FileStream fileStream = new FileStream(_path, FileMode.CreateNew))
+            BackupConfigFile();
+
+            using (FileStream fileStream = new FileStream(_configFile, FileMode.CreateNew))
             {
                 serializer.Serialize(fileStream, _scripts);
             }
 
+        }
+
+        private void BackupConfigFile()
+        {
+            File.Delete(_configFile + ".backup");
+            File.Move(_configFile, _configFile + ".backup");
         }
 
         private void SortListByName()
@@ -106,10 +113,10 @@ namespace ScriptHub
         {
             get 
             {
-                var result = ScriptType.PowershellScript;
+                var result = ScriptType.Unknown;
 
                 if (Path.Contains(".ps1"))
-                    result = ScriptType.PowershellScript;
+                    result = ScriptType.Powershell;
 
                 return result;
             }
@@ -119,6 +126,7 @@ namespace ScriptHub
 
     public enum ScriptType
     {
-        PowershellScript = 0
+        Unknown = 0,
+        Powershell = 1
     }
 }

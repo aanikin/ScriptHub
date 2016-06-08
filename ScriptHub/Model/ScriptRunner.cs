@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace ScriptHub
 {
-    class PowerShellRunner :  IScriptRunner
+    class ScriptRunner :  IScriptRunner
     {
 
         Script _script;
+        Runner _runner;
+
         Process _runnerProcess;
 
         string _currentError;
@@ -18,27 +20,23 @@ namespace ScriptHub
         public event EventHandler ErrorReceived;
         public event EventHandler Done;
 
-       
 
-        public PowerShellRunner(Script script)
+        public ScriptRunner(Runner runner, Script script)
         {
             _script = script;
+            _runner = runner;
+    
+            SetupProcess();
         }
 
-        public int PID
-        {
-            get{
-                Thread.Sleep(300);
-                return _runnerProcess.Id; 
-            }
-        }
         public void RunScript()
         {
-            
-            SetupProcess();
-            
-            Run();
-
+            Task.Run(() =>
+            {
+                _runnerProcess.Start();
+                _runnerProcess.BeginOutputReadLine();
+                _runnerProcess.BeginErrorReadLine();
+            });
         }
 
         public void Kill()
@@ -46,6 +44,7 @@ namespace ScriptHub
             if (!_runnerProcess.HasExited)
             {
                 _runnerProcess.Kill();
+                _runnerProcess.Dispose();
             }
             
         }
@@ -60,12 +59,14 @@ namespace ScriptHub
             _runnerProcess.ErrorDataReceived += ErrorOutput;
             _runnerProcess.Exited += Exited;
 
+            var str = string.Format(_runner.CommandLine, _script.Path, _script.Arguments);
+
             _runnerProcess.StartInfo = new System.Diagnostics.ProcessStartInfo
             {
+                FileName = _runner.Executable,
+                Arguments = string.Format(_runner.CommandLine, _script.Path, _script.Arguments),
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
-                FileName = "powershell.exe",
-                Arguments = "-ExecutionPolicy RemoteSigned" + " -file " + _script.Path + " " + _script.Arguments, 
                 WorkingDirectory = Path.GetDirectoryName(_script.Path),
                 UseShellExecute = false,
                 RedirectStandardError = true
@@ -86,17 +87,6 @@ namespace ScriptHub
             {
                  _currentError += e.Data;
             }
-
-        }
-
-        private async Task Run()
-        {
-            Task.Run(() =>
-            {
-                _runnerProcess.Start();
-                _runnerProcess.BeginOutputReadLine();
-                _runnerProcess.BeginErrorReadLine();
-            });
 
         }
 

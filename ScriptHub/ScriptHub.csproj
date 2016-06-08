@@ -57,7 +57,7 @@
     </Compile>
     <Compile Include="Interfaces\IScriptHubModel.cs" />
     <Compile Include="Interfaces\IScriptStore.cs" />
-    <Compile Include="Model\PowerShellRunner.cs" />
+    <Compile Include="Model\ScriptRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptForm.cs">
@@ -94,6 +94,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="runners.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="scripts.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

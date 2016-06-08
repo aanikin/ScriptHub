@@ -177,8 +177,14 @@ namespace ScriptHub
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            _model.DeleteScript(ScriptsBox.SelectedIndex);
-            LoadScripts();
+            var script = _model.GetScript(ScriptsBox.SelectedIndex);
+            DialogResult dialogResult = MessageBox.Show("Are you sure to delete script " + script.Name + "?", "Delete script", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                _model.DeleteScript(ScriptsBox.SelectedIndex);
+                LoadScripts();
+            }
+            
         }
 
         private void EditinISE_Click_1(object sender, EventArgs e)

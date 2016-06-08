@@ -88,11 +88,9 @@ namespace ScriptHub
 
         public void StopScript()
         {
-            if (_psr.PID != -1)
-            {
-                _psr.Kill();
-            }    
+            _psr.Kill();
         }
+
         public void StartScript(int scriptIndex)
         {
             ClearErrors();
