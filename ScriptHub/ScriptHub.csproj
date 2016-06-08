@@ -45,9 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ILogger.cs" />
-    <Compile Include="Interfaces\IPowerShellRunner.cs" />
-    <Compile Include="Interfaces\IScriptRunnerFactory.cs" />
+    <Compile Include="Model\Interfaces\ILogger.cs" />
+    <Compile Include="Model\Interfaces\IPowerShellRunner.cs" />
+    <Compile Include="Model\Interfaces\IScriptRunnerFactory.cs" />
     <Compile Include="Model\Logger.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -55,8 +55,8 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IScriptHubModel.cs" />
-    <Compile Include="Interfaces\IScriptStore.cs" />
+    <Compile Include="Model\Interfaces\IScriptHubModel.cs" />
+    <Compile Include="Model\Interfaces\IScriptStore.cs" />
     <Compile Include="Model\ScriptRunner.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
