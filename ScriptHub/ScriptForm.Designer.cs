@@ -91,6 +91,7 @@
             // 
             // PathBox
             // 
+            this.PathBox.Enabled = false;
             this.PathBox.Location = new System.Drawing.Point(119, 59);
             this.PathBox.Name = "PathBox";
             this.PathBox.Size = new System.Drawing.Size(283, 20);
@@ -134,7 +135,7 @@
             this.OpenFileButton.Name = "OpenFileButton";
             this.OpenFileButton.Size = new System.Drawing.Size(57, 20);
             this.OpenFileButton.TabIndex = 3;
-            this.OpenFileButton.Text = "Open";
+            this.OpenFileButton.Text = "Browse...";
             this.OpenFileButton.UseVisualStyleBackColor = true;
             this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
             // 
