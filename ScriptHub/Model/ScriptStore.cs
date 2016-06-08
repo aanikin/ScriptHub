@@ -31,7 +31,7 @@ namespace ScriptHub
                 _scripts = (Scripts)serializer.Deserialize(fileStream);
             }
 
-            SortListByName();
+            SortListByName(); //
         }
 
         private void SaveScripts()
