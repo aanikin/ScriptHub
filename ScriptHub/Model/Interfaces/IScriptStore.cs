@@ -8,10 +8,12 @@ namespace ScriptHub
         List<Script> GetScripts();
         Script GetScript(int index);
 
-        void AddScript(Script script);
+        bool AddScript(Script script);
 
-        void UpdateScript(int index, Script script);
+        bool UpdateScript(int index, Script script);
 
         void DeleteScript(int index);
+
+
     }
 }

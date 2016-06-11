@@ -18,28 +18,38 @@ namespace ScriptHub
             Application.SetCompatibleTextRenderingDefault(false);
 
             var currentDir = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+            var logsFolder = currentDir + "Logs\\";
 
-
-            var scriptsFilePath = ConfigurationManager.AppSettings["ScriptsConfigFilePath"];
-            if (string.IsNullOrEmpty(Path.GetDirectoryName(scriptsFilePath)))
+            try
             {
-                scriptsFilePath = currentDir + scriptsFilePath;
+                var scriptsFilePath = ConfigurationManager.AppSettings["ScriptsConfigFilePath"];
+                if (string.IsNullOrEmpty(Path.GetDirectoryName(scriptsFilePath)))
+                {
+                    scriptsFilePath = currentDir + scriptsFilePath;
+                }
+
+                var runnersFilePath = ConfigurationManager.AppSettings["RunnersConfigFilePath"];
+                if (string.IsNullOrEmpty(Path.GetDirectoryName(runnersFilePath)))
+                {
+                    runnersFilePath = currentDir + runnersFilePath;
+                }
+
+                IScriptStore scriptStore = new ScriptStore(scriptsFilePath);
+
+                ILogger logger = new Logger(logsFolder);
+                IScriptRunnerFactory scriptRunner = new ScriptRunnerFactory(runnersFilePath);
+
+                IScriptHubModel model = new ScriptHubModel(scriptStore, logger, scriptRunner);
+
+                Application.Run(new MainForm(model));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
-            var runnersFilePath = ConfigurationManager.AppSettings["RunnersConfigFilePath"];
-            if (string.IsNullOrEmpty(Path.GetDirectoryName(runnersFilePath)))
-            {
-                runnersFilePath = currentDir + runnersFilePath;
-            }
-
-            IScriptStore settings = new ScriptStore(scriptsFilePath);
             
-            ILogger logger = new Logger(currentDir + "Logs\\");
-            IScriptRunnerFactory scriptRunner = new ScriptRunnerFactory(runnersFilePath);
-
-            IScriptHubModel model = new ScriptHubModel(settings, logger, scriptRunner);
-
-            Application.Run(new MainForm(model));
         }
     }
 }

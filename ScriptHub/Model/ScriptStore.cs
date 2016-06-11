@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
+using System;
 
 namespace ScriptHub
 {
@@ -9,6 +10,7 @@ namespace ScriptHub
     {
         Scripts _scripts;
         string _configFile;
+        HashSet<string> _hashset;
 
         public ScriptStore(string configFile)
         { 
@@ -29,6 +31,13 @@ namespace ScriptHub
             using (FileStream fileStream = new FileStream(_configFile,FileMode.Open)) 
             {
                 _scripts = (Scripts)serializer.Deserialize(fileStream);
+            }
+
+            _hashset = new HashSet<string>(_scripts.ScriptList.Select(x => x.Name).ToList());
+
+            if (_hashset.Count() != _scripts.ScriptList.Count)
+            {
+                throw new Exception("Scripts have duplicate names of scripts! Please fix scripts.config.");
             }
 
             SortListByName(); //
@@ -57,7 +66,7 @@ namespace ScriptHub
 
         private void SortListByName()
         {
-            _scripts.ScriptList = _scripts.ScriptList.OrderBy(x => x.Name).ToList();
+           _scripts.ScriptList = _scripts.ScriptList.OrderBy(x => x.Name).ToList();
         }
 
         public List<Script> GetScripts()
@@ -70,16 +79,37 @@ namespace ScriptHub
             return GetScripts()[index];
         }
 
-        public void AddScript(Script script)
+        public bool AddScript(Script script)
         {
-            _scripts.ScriptList.Add(script);
-            SaveScripts();
+            if (CheckUnique(script))
+            {
+                _scripts.ScriptList.Add(script);
+                SaveScripts();
+                return true;
+            }
+
+            return false;
         }
 
-        public void UpdateScript(int index, Script script)
+        public bool UpdateScript(int index, Script script)
         {
-            _scripts.ScriptList[index] = script;
+            if (_scripts.ScriptList[index].Name == script.Name)
+            {
+                _scripts.ScriptList[index] = script;
+            } else
+            {
+                if (CheckUnique(script))
+                {
+                    _scripts.ScriptList[index] = script;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             SaveScripts();
+            return true;
         }
 
         public void DeleteScript(int index)
@@ -87,6 +117,17 @@ namespace ScriptHub
             _scripts.ScriptList.RemoveAt(index);
             SaveScripts();
         }
+
+        public bool CheckUnique(Script script)
+        {
+            if (_scripts.ScriptList.FirstOrDefault(x => x.Name.ToLower() == script.Name.ToLower()) != null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 
     
@@ -98,7 +139,7 @@ namespace ScriptHub
 
     }
 
-    public class Script
+    public class Script: ICloneable
     {
         [XmlElement("Name")]
         public string Name { get; set;}
@@ -120,6 +161,16 @@ namespace ScriptHub
 
                 return result;
             }
+        }
+        public object Clone()
+        {
+            return new Script
+            {
+                Name = this.Name,
+                Path = this.Path,
+                Arguments = this.Arguments,
+                Details = this.Details
+            };
         }
         
     }

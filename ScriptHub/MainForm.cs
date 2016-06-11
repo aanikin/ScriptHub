@@ -155,22 +155,19 @@ namespace ScriptHub
         
         private void AddButton_Click(object sender, EventArgs e)
         {
-            ScriptForm addScript = new ScriptForm();
-            if (addScript.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-               _model.AddScript(addScript.CurrentScript);
-               LoadScripts();
-            }
+             ScriptForm editScript = new ScriptForm(_model);
+             if (editScript.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+             {
+                 LoadScripts();
+             }
         }
 
         private void EditButton_Click(object sender, EventArgs e)
         {
-            var script = _model.GetScript(ScriptsBox.SelectedIndex);
 
-            ScriptForm editScript = new ScriptForm(script);
+            ScriptForm editScript = new ScriptForm(_model, ScriptsBox.SelectedIndex);
             if (editScript.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                _model.UpdateScript(ScriptsBox.SelectedIndex, editScript.CurrentScript);
                 LoadScripts();
             }
         }

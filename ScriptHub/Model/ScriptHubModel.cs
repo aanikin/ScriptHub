@@ -48,14 +48,14 @@ namespace ScriptHub
             return _scriptStore.GetScript(index);
         }
 
-        public void AddScript(Script script)
+        public bool AddScript(Script script)
         {
-            _scriptStore.AddScript(script);
+            return _scriptStore.AddScript(script);
         }
 
-        public void UpdateScript(int index, Script script)
+        public bool UpdateScript(int index, Script script)
         {
-            _scriptStore.UpdateScript(index, script);
+            return _scriptStore.UpdateScript(index, script);
         }
 
         public void DeleteScript(int index)

@@ -14,24 +14,36 @@ namespace ScriptHub
     public partial class ScriptForm : Form
     {
         Script _scriptToEdit;
+        IScriptHubModel _model;
+       
+        int _scriptIndex;
+        
+        const int ADD_NEW = -1;
+
 
         public Script CurrentScript { 
             get { 
                 return _scriptToEdit; 
             }
         }
-        public ScriptForm(Script scriptToEdit = null)
+        public ScriptForm(IScriptHubModel model, int index = ADD_NEW)
         {
             InitializeComponent();
+            if (model == null)
+            {
+                throw new ArgumentNullException("model");
+            }
 
-            if (scriptToEdit == null)
+            _model = model;
+            _scriptIndex = index;
+            if (_scriptIndex == ADD_NEW)
             {
                 _scriptToEdit = new Script();
                 InitializeToAddNewScript();
             }
             else
             {
-                _scriptToEdit = scriptToEdit;
+                _scriptToEdit = _model.GetScript(index);
                 InitializeToEditScript();
             }
 
@@ -47,7 +59,6 @@ namespace ScriptHub
 
             if (!string.IsNullOrEmpty(_scriptToEdit.Path))
             {
-                
                 openFileDialog.InitialDirectory = Path.GetDirectoryName(_scriptToEdit.Path);
             }
         }
@@ -60,17 +71,41 @@ namespace ScriptHub
         private void InitializeToAddNewScript()
         {
             Text = "Add new script";
+
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            _scriptToEdit.Name = NameBox.Text;
-            _scriptToEdit.Path = PathBox.Text;
-            _scriptToEdit.Arguments = ArgumentsBox.Text;
-            _scriptToEdit.Details = DetailsBox.Text;
+            if (!File.Exists(PathBox.Text))
+            {
+                MessageBox.Show("Script file doesn't exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            DialogResult = System.Windows.Forms.DialogResult.OK;
-            
+            _scriptToEdit = new Script {
+                Name = NameBox.Text,
+                Path = PathBox.Text,
+                Arguments = ArgumentsBox.Text,
+                Details = DetailsBox.Text
+            };
+
+            bool result = false;
+            if (_scriptIndex == ADD_NEW) 
+            {
+                result = _model.AddScript(_scriptToEdit);
+            } else
+            {
+                result = _model.UpdateScript(_scriptIndex, _scriptToEdit);
+            }
+
+            if (result)
+            {
+                DialogResult = System.Windows.Forms.DialogResult.OK;
+            } 
+            else
+            {
+                MessageBox.Show("Script with this name already exists. Please choose another name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
