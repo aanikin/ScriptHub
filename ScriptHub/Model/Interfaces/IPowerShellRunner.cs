@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace ScriptHub
+namespace ScriptHub.Model.Interfaces
 {
     public interface IScriptRunner
     {

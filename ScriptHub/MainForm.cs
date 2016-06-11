@@ -5,6 +5,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
+using ScriptHub.Model;
+using ScriptHub.Model.Interfaces;
 
 namespace ScriptHub
 {

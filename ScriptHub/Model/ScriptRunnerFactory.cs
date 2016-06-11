@@ -1,42 +1,36 @@
-﻿using System;
+﻿using ScriptHub.Model.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using ScriptHub.Model.Interfaces;
 
-namespace ScriptHub
+
+namespace ScriptHub.Model
 {
     public class ScriptRunnerFactory : IScriptRunnerFactory
     {
         Runners _runners;
-        string _configFile;
+        IConfigFile<Runners> _config;
 
-        public ScriptRunnerFactory(string configFile)
+        public ScriptRunnerFactory(IConfigFile<Runners> config)
         { 
-            if (!File.Exists(configFile))
+            if (config == null)
             {
-                throw new FileNotFoundException(configFile);
+                throw new ArgumentNullException("config");
             }
+            _config = config;
 
-            _configFile = configFile;
-
-            LoadRunners();
+            _runners = _config.Load();
         }
-
-        private void LoadRunners()
+        public Runners GetRunners()
         {
-            var serializer = new XmlSerializer(typeof(Runners));
+            return _runners;
+        }        
 
-            using (FileStream fileStream = new FileStream(_configFile, FileMode.Open)) 
-            {
-                _runners = (Runners)serializer.Deserialize(fileStream);
-            }
-
-        }
-
-    
         public IScriptRunner CreateScriptRunner(Script script)
         {
             var runner = _runners.RunnersList.FirstOrDefault<Runner>(r => r.Type == script.Type);
@@ -58,16 +52,20 @@ namespace ScriptHub
 
     }
 
-    public class Runner
+    public class Runner : IXmlConfigEntity
     {
         [XmlElement("Type")]
         public ScriptType Type { get; set; }
-        [XmlElement("Executable")]
-        public string Executable { get; set; }
-        [XmlElement("CommandLine")]
-        public string CommandLine { get; set; }
+
+        [XmlElement("Name")]
+        public string Name { get; set; }
         
 
+        [XmlElement("Executable")]
+        public string Executable { get; set; }
+        
+        [XmlElement("CommandLine")]
+        public string CommandLine { get; set; }
     }
 
 }

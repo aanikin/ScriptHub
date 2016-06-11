@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using ScriptHub.Model;
+using ScriptHub.Model.Interfaces;
 
 namespace ScriptHub
 {

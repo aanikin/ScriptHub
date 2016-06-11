@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ScriptHub.Model.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScriptHub
+namespace ScriptHub.Model
 {
     public class Logger : ILogger
     {

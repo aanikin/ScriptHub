@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
+using ScriptHub.Model.Interfaces;
 
-namespace ScriptHub
+namespace ScriptHub.Model
 {
     public class ScriptHubModel : IScriptHubModel
     {

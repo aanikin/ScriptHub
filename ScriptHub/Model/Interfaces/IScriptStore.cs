@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ScriptHub
+namespace ScriptHub.Model.Interfaces
 {
     public interface IScriptStore
     {

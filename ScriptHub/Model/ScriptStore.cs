@@ -3,61 +3,31 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using System;
+using ScriptHub.Model.Interfaces;
 
-namespace ScriptHub
+namespace ScriptHub.Model
 {
     class ScriptStore : IScriptStore
     {
         Scripts _scripts;
         string _configFile;
-        HashSet<string> _hashset;
-
-        public ScriptStore(string configFile)
-        { 
-            if (!File.Exists(configFile))
-            {
-                throw new FileNotFoundException(configFile);
-            }
-
-            _configFile = configFile;
-
-            LoadScripts();
-        }
-
-        private void LoadScripts()
+        IConfigFile<Scripts> _config;
+       
+        public ScriptStore(IConfigFile<Scripts> config)
         {
-            var serializer = new XmlSerializer(typeof(Scripts));
 
-            using (FileStream fileStream = new FileStream(_configFile,FileMode.Open)) 
+            if (config == null)
             {
-                _scripts = (Scripts)serializer.Deserialize(fileStream);
+                throw new ArgumentNullException("config");
             }
 
-            _hashset = new HashSet<string>(_scripts.ScriptList.Select(x => x.Name).ToList());
+            _config = config;
 
-            if (_hashset.Count() != _scripts.ScriptList.Count)
-            {
-                throw new Exception("Scripts have duplicate names of scripts! Please fix scripts.config.");
-            }
-
-            SortListByName(); //
-        }
-
-        private void SaveScripts()
-        {
-            var serializer = new XmlSerializer(typeof(Scripts));
-
+            _scripts = _config.Load();
             SortListByName();
-
-            BackupConfigFile();
-
-            using (FileStream fileStream = new FileStream(_configFile, FileMode.CreateNew))
-            {
-                serializer.Serialize(fileStream, _scripts);
-            }
-
         }
 
+       
         private void BackupConfigFile()
         {
             File.Delete(_configFile + ".backup");
@@ -84,7 +54,7 @@ namespace ScriptHub
             if (CheckUnique(script))
             {
                 _scripts.ScriptList.Add(script);
-                SaveScripts();
+                _config.Save(_scripts);
                 return true;
             }
 
@@ -108,14 +78,14 @@ namespace ScriptHub
                 }
             }
 
-            SaveScripts();
+            _config.Save(_scripts);
             return true;
         }
 
         public void DeleteScript(int index)
         {
             _scripts.ScriptList.RemoveAt(index);
-            SaveScripts();
+            _config.Save(_scripts);
         }
 
         public bool CheckUnique(Script script)
@@ -139,39 +109,22 @@ namespace ScriptHub
 
     }
 
-    public class Script: ICloneable
+    public class Script : IXmlConfigEntity
     {
+        [XmlElement("Type")]
+        public ScriptType Type { get; set; }
+        
         [XmlElement("Name")]
         public string Name { get; set;}
+      
         [XmlElement("Path")]
         public string Path { get; set;}
+        
         [XmlElement("Arguments")]
         public string Arguments { get; set; }
+        
         [XmlElement("Details")]
         public string Details { get; set;}
-
-        public ScriptType Type 
-        {
-            get 
-            {
-                var result = ScriptType.Unknown;
-
-                if (Path.Contains(".ps1"))
-                    result = ScriptType.Powershell;
-
-                return result;
-            }
-        }
-        public object Clone()
-        {
-            return new Script
-            {
-                Name = this.Name,
-                Path = this.Path,
-                Arguments = this.Arguments,
-                Details = this.Details
-            };
-        }
         
     }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ScriptHub.Model;
+using ScriptHub.Model.Interfaces;
+using System;
 using System.Configuration;
 using System.IO;
 using System.Windows.Forms;
@@ -34,10 +36,14 @@ namespace ScriptHub
                     runnersFilePath = currentDir + runnersFilePath;
                 }
 
-                IScriptStore scriptStore = new ScriptStore(scriptsFilePath);
 
                 ILogger logger = new Logger(logsFolder);
-                IScriptRunnerFactory scriptRunner = new ScriptRunnerFactory(runnersFilePath);
+
+                IConfigFile<Scripts> scriptsConfig = new ConfigFile<Scripts>(scriptsFilePath);
+                IScriptStore scriptStore = new ScriptStore(scriptsConfig);
+
+                IConfigFile<Runners> runnersConfig = new ConfigFile<Runners>(runnersFilePath);
+                IScriptRunnerFactory scriptRunner = new ScriptRunnerFactory(runnersConfig);
 
                 IScriptHubModel model = new ScriptHubModel(scriptStore, logger, scriptRunner);
 

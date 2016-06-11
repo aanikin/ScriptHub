@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ScriptHub
+namespace ScriptHub.Model.Interfaces
 {
     public interface ILogger
     {

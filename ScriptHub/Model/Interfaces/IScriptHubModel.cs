@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace ScriptHub
+namespace ScriptHub.Model.Interfaces
 {
     public interface IScriptHubModel
     {

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ScriptHub.Model.Interfaces;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ScriptHub
+namespace ScriptHub.Model
 {
     class ScriptRunner :  IScriptRunner
     {
