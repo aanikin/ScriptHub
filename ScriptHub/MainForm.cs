@@ -32,11 +32,15 @@ namespace ScriptHub
         private void Initialize()
         {
             SubscribeForEvents();
+            
+            ResizeStatusBar();
 
             LoadScripts();
+           
         }
 
-        private void SubscribeForEvents()
+       
+       private void SubscribeForEvents()
         {
             _model.ErrorReceived += WriteErrorOutput;
             _model.OutputDataReceived += WriteOutput;
@@ -57,7 +61,9 @@ namespace ScriptHub
 
         void Done(object sender, EventArgs e)
         {
-            UpdateControlsOnStop();
+            var scriptEventArgs = e as ScriptHubDataReceivedEventArgs;
+
+            UpdateControlsOnStop(scriptEventArgs.Data);
         }
 
         private void WriteOutput(object sender, DataReceivedEventArgs e)
@@ -100,11 +106,11 @@ namespace ScriptHub
             RunButton.Enabled = false;
             StopButton.Enabled = true;
            
-            StatusText.Text = "Running...";
+            CurrentState.Text = "Running...";
             
             var script = _model.GetScript(ScriptsBox.SelectedIndex);
-            PathLabel.Text = " Current script: " + script.Path + " " + script.Arguments;
-            DetailsLabel.Text = " Description: " + script.Details;
+           
+            AppendText(Output, "### SCRIPT STARTED: " + script.Name + " (" + script.Path + script.Arguments + ")", Color.LawnGreen, true);
         }
 
         private void ClearErrors()
@@ -113,17 +119,13 @@ namespace ScriptHub
             ErrorsCount.Text = "No errors";
         }
 
-        private void UpdateControlsOnStop()
-        {
-            var done = "Done";
-
+        private void UpdateControlsOnStop(string message)
+        {   
             RunButton.Enabled = true;
             StopButton.Enabled = false;
-           
 
-            WriteToOutput(done);
-
-            StatusText.Text = done;
+            AppendText(Output, "### " + message.ToUpper(), Color.LawnGreen, true);
+            CurrentState.Text = message;
         }
 
         private void WriteToOutput (string text, bool Error = false, bool withCleanup = false)
@@ -157,6 +159,7 @@ namespace ScriptHub
             box.AppendText(text);
 
             box.SelectionColor = _defaultColor;
+            box.ScrollToCaret();
 
         }
 
@@ -200,6 +203,31 @@ namespace ScriptHub
         private void EditinISE_Click_1(object sender, EventArgs e)
         {
             _model.OpenInISE(ScriptsBox.SelectedIndex);
+        }
+
+        private void ScriptsBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var script = _model.GetScript(ScriptsBox.SelectedIndex);
+            StatusText.Text = script.Path + " " + script.Arguments;
+
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            ResizeStatusBar();
+        }
+
+        private void ResizeStatusBar()
+        {
+            int len = 0;
+            foreach (ToolStripItem item in statusBar.Items)
+            {
+                if (item != StatusText)
+                {
+                    len += item.Width + 10;
+                }
+            }
+            StatusText.Width = statusBar.Width - len;
         }
 
     }

@@ -11,6 +11,7 @@ namespace ScriptHub.Model
     public class Logger : ILogger
     {
         string _logsFolder;
+        Object _loggerLock = new Object();
 
         public Logger(string logsFolder)
         {
@@ -31,16 +32,19 @@ namespace ScriptHub.Model
         public void LogStamp(string logName)
         {
             var message = "--------------------------------------------------------------------------------------------------\r\n";
-            message += "EXECUTED by " + System.Security.Principal.WindowsIdentity.GetCurrent().Name + " at " + DateTime.Now + "---\r\n";
+            message += "--- EXECUTED by " + System.Security.Principal.WindowsIdentity.GetCurrent().Name + " at " + DateTime.Now + "\r\n";
 
             WriteToLog(logName, message);
         }
 
         private void WriteToLog(string logName, string message)
         {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(_logsFolder + logName + ".log", true))
+            lock (_loggerLock)
             {
-                file.WriteLine(message);
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(_logsFolder + logName + ".log", true))
+                {
+                    file.WriteLine(message);
+                }
             }
         }
     }

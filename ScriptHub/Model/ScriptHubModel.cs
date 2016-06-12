@@ -17,7 +17,7 @@ namespace ScriptHub.Model
         List<string> _errors;
         Script _currentScript;
         IScriptRunnerFactory _scriptRunnerFactory;
-        IScriptRunner _currernRunner;
+        IScriptRunner _currentRunner;
 
         public event EventHandler ScriptFinished;
         public event EventHandler ErrorReceived;
@@ -95,7 +95,9 @@ namespace ScriptHub.Model
 
         public void StopScript()
         {
-            _currernRunner.Kill();
+            _currentRunner.Stop();
+
+            ScriptRunFinished("Stopped");
         }
 
         public void StartScript(int scriptIndex)
@@ -106,13 +108,13 @@ namespace ScriptHub.Model
 
             _logger.LogStamp(_currentScript.Name);
 
-            _currernRunner = _scriptRunnerFactory.CreateScriptRunner(_currentScript);
+            _currentRunner = _scriptRunnerFactory.CreateScriptRunner(_currentScript);
 
-            _currernRunner.OutputDataReceived += WriteOutput;
-            _currernRunner.ErrorReceived += WriteErrorOutput;
-            _currernRunner.Done += Done;
+            _currentRunner.OutputDataReceived += WriteOutput;
+            _currentRunner.ErrorReceived += WriteErrorOutput;
+            _currentRunner.Done += Done;
 
-            _currernRunner.RunScript();
+            _currentRunner.Run();
         }
 
         public void OpenInISE(int scriptIndex)
@@ -131,7 +133,21 @@ namespace ScriptHub.Model
 
         private void Done(object sender, EventArgs e)
         {
-            ScriptFinished.Invoke(sender, e);
+            ScriptRunFinished("Done");
+        }
+
+        private void ScriptRunFinished(string withMessage)
+        {
+            ScriptFinished.Invoke(this, new ScriptHubDataReceivedEventArgs(withMessage));
+
+            UnsubscibeEvents();
+        }
+
+        private void UnsubscibeEvents()
+        {
+            _currentRunner.OutputDataReceived -= WriteOutput;
+            _currentRunner.ErrorReceived -= WriteErrorOutput;
+            _currentRunner.Done -= Done;
         }
 
         private void WriteErrorOutput(object sender, EventArgs e)

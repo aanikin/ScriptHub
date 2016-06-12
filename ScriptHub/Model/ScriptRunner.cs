@@ -30,7 +30,7 @@ namespace ScriptHub.Model
             SetupProcess();
         }
 
-        public void RunScript()
+        public void Run()
         {
             Task.Run(() =>
             {
@@ -40,14 +40,13 @@ namespace ScriptHub.Model
             });
         }
 
-        public void Kill()
+        public void Stop()
         {
             if (!_runnerProcess.HasExited)
             {
-                _runnerProcess.Kill();
-                _runnerProcess.Dispose();
+                _runnerProcess.Close();
+                //_runnerProcess.Kill();
             }
-            
         }
 
         private void SetupProcess()
@@ -80,7 +79,10 @@ namespace ScriptHub.Model
             {
                 if (!string.IsNullOrEmpty(_currentError))
                 {
-                    ErrorReceived.Invoke(sender, new ScriptHubDataReceivedEventArgs(_currentError));
+                    if (ErrorReceived != null)
+                    {
+                        ErrorReceived.Invoke(sender, new ScriptHubDataReceivedEventArgs(_currentError));
+                    }
                 }
                 _currentError = string.Empty;
             }
@@ -93,13 +95,20 @@ namespace ScriptHub.Model
 
         private void WriteOutput(object sender, DataReceivedEventArgs e)
         {
-            OutputDataReceived.Invoke(sender, e);
+            if (OutputDataReceived != null)
+            {
+                OutputDataReceived.Invoke(sender, e);
+            }
         }
 
         private void Exited(object sender, EventArgs e)
         {
-            Done.Invoke(sender, e);
-            _runnerProcess.Dispose();
+            if (Done != null)
+            {
+                Done.Invoke(sender, e);
+            }
+
+            _runnerProcess.Close();
         }
 
 

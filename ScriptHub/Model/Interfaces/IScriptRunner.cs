@@ -8,7 +8,7 @@ namespace ScriptHub.Model.Interfaces
         event EventHandler Done;
         event EventHandler ErrorReceived;
         event DataReceivedEventHandler OutputDataReceived;
-        void RunScript();
-        void Kill();
+        void Run();
+        void Stop();
     }
 }

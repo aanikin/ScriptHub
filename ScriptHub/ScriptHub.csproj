@@ -48,7 +48,7 @@
     <Compile Include="Model\ConfigFile.cs" />
     <Compile Include="Model\Interfaces\IConfigFile.cs" />
     <Compile Include="Model\Interfaces\ILogger.cs" />
-    <Compile Include="Model\Interfaces\IPowerShellRunner.cs" />
+    <Compile Include="Model\Interfaces\IScriptRunner.cs" />
     <Compile Include="Model\Interfaces\IScriptRunnerFactory.cs" />
     <Compile Include="Model\Interfaces\IXmlConfigEntity.cs" />
     <Compile Include="Model\Logger.cs" />

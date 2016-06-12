@@ -38,16 +38,13 @@
             this.EditinISE = new System.Windows.Forms.Button();
             this.ScriptsBox = new System.Windows.Forms.ListBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.DetailsLabel = new System.Windows.Forms.Label();
-            this.PathLabel = new System.Windows.Forms.Label();
             this.Output = new System.Windows.Forms.RichTextBox();
             this.ErrorOutput = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.RunButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusBar = new System.Windows.Forms.StatusStrip();
             this.StatusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.CurrentState = new System.Windows.Forms.ToolStripStatusLabel();
             this.ErrorsCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -62,9 +59,8 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.statusBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainTabControl
@@ -95,7 +91,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 32);
+            this.splitContainer1.Location = new System.Drawing.Point(3, 38);
             this.splitContainer1.MinimumSize = new System.Drawing.Size(276, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -107,7 +103,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1038, 630);
+            this.splitContainer1.Size = new System.Drawing.Size(1038, 624);
             this.splitContainer1.SplitterDistance = 280;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -119,7 +115,7 @@
             this.flowLayoutPanel2.Controls.Add(this.EditButton);
             this.flowLayoutPanel2.Controls.Add(this.EditinISE);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 600);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 594);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(280, 30);
             this.flowLayoutPanel2.TabIndex = 1;
@@ -172,8 +168,9 @@
             this.ScriptsBox.ItemHeight = 15;
             this.ScriptsBox.Location = new System.Drawing.Point(0, 0);
             this.ScriptsBox.Name = "ScriptsBox";
-            this.ScriptsBox.Size = new System.Drawing.Size(280, 630);
+            this.ScriptsBox.Size = new System.Drawing.Size(280, 624);
             this.ScriptsBox.TabIndex = 0;
+            this.ScriptsBox.SelectedIndexChanged += new System.EventHandler(this.ScriptsBox_SelectedIndexChanged);
             this.ScriptsBox.DoubleClick += new System.EventHandler(this.EditButton_Click);
             // 
             // splitContainer2
@@ -185,43 +182,14 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.panel1);
             this.splitContainer2.Panel1.Controls.Add(this.Output);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.ErrorOutput);
-            this.splitContainer2.Size = new System.Drawing.Size(754, 630);
-            this.splitContainer2.SplitterDistance = 527;
+            this.splitContainer2.Size = new System.Drawing.Size(754, 624);
+            this.splitContainer2.SplitterDistance = 521;
             this.splitContainer2.TabIndex = 1;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.DetailsLabel);
-            this.panel1.Controls.Add(this.PathLabel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(754, 35);
-            this.panel1.TabIndex = 1;
-            // 
-            // DetailsLabel
-            // 
-            this.DetailsLabel.AutoSize = true;
-            this.DetailsLabel.Location = new System.Drawing.Point(4, 15);
-            this.DetailsLabel.Name = "DetailsLabel";
-            this.DetailsLabel.Size = new System.Drawing.Size(0, 13);
-            this.DetailsLabel.TabIndex = 2;
-            // 
-            // PathLabel
-            // 
-            this.PathLabel.AutoSize = true;
-            this.PathLabel.Location = new System.Drawing.Point(4, 2);
-            this.PathLabel.Name = "PathLabel";
-            this.PathLabel.Size = new System.Drawing.Size(0, 13);
-            this.PathLabel.TabIndex = 0;
             // 
             // Output
             // 
@@ -231,7 +199,8 @@
             this.Output.ForeColor = System.Drawing.Color.White;
             this.Output.Location = new System.Drawing.Point(0, 0);
             this.Output.Name = "Output";
-            this.Output.Size = new System.Drawing.Size(754, 527);
+            this.Output.ReadOnly = true;
+            this.Output.Size = new System.Drawing.Size(754, 521);
             this.Output.TabIndex = 0;
             this.Output.Text = "";
             // 
@@ -253,7 +222,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1038, 29);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1038, 35);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // RunButton
@@ -261,7 +230,7 @@
             this.RunButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RunButton.Location = new System.Drawing.Point(3, 3);
             this.RunButton.Name = "RunButton";
-            this.RunButton.Size = new System.Drawing.Size(106, 23);
+            this.RunButton.Size = new System.Drawing.Size(73, 26);
             this.RunButton.TabIndex = 3;
             this.RunButton.Text = "Run";
             this.RunButton.UseVisualStyleBackColor = true;
@@ -271,9 +240,9 @@
             // 
             this.StopButton.Enabled = false;
             this.StopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StopButton.Location = new System.Drawing.Point(115, 3);
+            this.StopButton.Location = new System.Drawing.Point(82, 3);
             this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(83, 23);
+            this.StopButton.Size = new System.Drawing.Size(55, 26);
             this.StopButton.TabIndex = 4;
             this.StopButton.Text = "Stop";
             this.StopButton.UseVisualStyleBackColor = true;
@@ -289,44 +258,60 @@
             this.tabPage1.Text = "Monitors";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // statusStrip1
+            // statusBar
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusText,
             this.CurrentState,
             this.ErrorsCount});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 694);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1050, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusBar.Location = new System.Drawing.Point(0, 694);
+            this.statusBar.Name = "statusBar";
+            this.statusBar.Size = new System.Drawing.Size(1050, 22);
+            this.statusBar.TabIndex = 1;
+            this.statusBar.Text = "statusLine";
             // 
             // StatusText
             // 
+            this.StatusText.AutoSize = false;
+            this.StatusText.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.StatusText.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.StatusText.Name = "StatusText";
-            this.StatusText.Size = new System.Drawing.Size(0, 17);
+            this.StatusText.Size = new System.Drawing.Size(800, 17);
+            this.StatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CurrentState
             // 
+            this.CurrentState.AutoSize = false;
+            this.CurrentState.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.CurrentState.Name = "CurrentState";
-            this.CurrentState.Size = new System.Drawing.Size(0, 17);
+            this.CurrentState.Size = new System.Drawing.Size(75, 17);
             // 
             // ErrorsCount
             // 
+            this.ErrorsCount.AutoSize = false;
+            this.ErrorsCount.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.ErrorsCount.ForeColor = System.Drawing.Color.Red;
             this.ErrorsCount.Name = "ErrorsCount";
-            this.ErrorsCount.Size = new System.Drawing.Size(0, 17);
+            this.ErrorsCount.Size = new System.Drawing.Size(75, 17);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1050, 716);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusBar);
             this.Controls.Add(this.MainTabControl);
             this.ForeColor = System.Drawing.SystemColors.WindowText;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ScriptHub";
+            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.MainTabControl.ResumeLayout(false);
             this.ScriptsTab.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -338,11 +323,9 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.statusBar.ResumeLayout(false);
+            this.statusBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -353,7 +336,7 @@
         private System.Windows.Forms.TabControl MainTabControl;
         private System.Windows.Forms.TabPage ScriptsTab;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListBox ScriptsBox;
         private System.Windows.Forms.Button RunButton;
@@ -370,9 +353,6 @@
         private System.Windows.Forms.Button DeleteButton;
         private System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.Button EditinISE;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label DetailsLabel;
-        private System.Windows.Forms.Label PathLabel;
     }
 }
 
