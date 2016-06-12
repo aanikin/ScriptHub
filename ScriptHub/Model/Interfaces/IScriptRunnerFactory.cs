@@ -1,9 +1,11 @@
 ﻿
+using System.Collections.Generic;
+
 namespace ScriptHub.Model.Interfaces
 {
     public interface IScriptRunnerFactory
     {
-        Runners GetRunners();
+        List<Runner> GetRunners();
 
         IScriptRunner CreateScriptRunner(Script script);
     }

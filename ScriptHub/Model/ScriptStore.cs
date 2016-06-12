@@ -10,7 +10,6 @@ namespace ScriptHub.Model
     class ScriptStore : IScriptStore
     {
         Scripts _scripts;
-        string _configFile;
         IConfigFile<Scripts> _config;
        
         public ScriptStore(IConfigFile<Scripts> config)
@@ -23,25 +22,32 @@ namespace ScriptHub.Model
 
             _config = config;
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             _scripts = _config.Load();
+
+            VerifyLoadedList();
             SortListByName();
         }
 
-       
-        private void BackupConfigFile()
+        private void VerifyLoadedList()
         {
-            File.Delete(_configFile + ".backup");
-            File.Move(_configFile, _configFile + ".backup");
+            if (_scripts.List.Select(x => x.Name).Distinct().Count() != _scripts.List.Count)
+            {
+                throw new Exception("Scripts have duplicate names of scripts! Please fix scripts.config.");
+            }
         }
-
         private void SortListByName()
         {
-           _scripts.ScriptList = _scripts.ScriptList.OrderBy(x => x.Name).ToList();
+           _scripts.List = _scripts.List.OrderBy(x => x.Name).ToList();
         }
 
         public List<Script> GetScripts()
         {
-            return _scripts.ScriptList;
+            return _scripts.List;
         }
 
         public Script GetScript(int index)
@@ -53,24 +59,27 @@ namespace ScriptHub.Model
         {
             if (CheckUnique(script))
             {
-                _scripts.ScriptList.Add(script);
-                _config.Save(_scripts);
+                _scripts.List.Add(script);
+
+                SaveScripts();
+                
                 return true;
             }
 
             return false;
         }
 
+       
         public bool UpdateScript(int index, Script script)
         {
-            if (_scripts.ScriptList[index].Name == script.Name)
+            if (_scripts.List[index].Name == script.Name)
             {
-                _scripts.ScriptList[index] = script;
+                _scripts.List[index] = script;
             } else
             {
                 if (CheckUnique(script))
                 {
-                    _scripts.ScriptList[index] = script;
+                    _scripts.List[index] = script;
                 }
                 else
                 {
@@ -78,19 +87,20 @@ namespace ScriptHub.Model
                 }
             }
 
-            _config.Save(_scripts);
+            SaveScripts();
+
             return true;
         }
 
         public void DeleteScript(int index)
         {
-            _scripts.ScriptList.RemoveAt(index);
+            _scripts.List.RemoveAt(index);
             _config.Save(_scripts);
         }
 
         public bool CheckUnique(Script script)
         {
-            if (_scripts.ScriptList.FirstOrDefault(x => x.Name.ToLower() == script.Name.ToLower()) != null)
+            if (_scripts.List.FirstOrDefault(x => x.Name.ToLower() == script.Name.ToLower()) != null)
             {
                 return false;
             }
@@ -98,21 +108,26 @@ namespace ScriptHub.Model
             return true;
         }
 
+        private void SaveScripts()
+        {
+            SortListByName();
+            _config.Save(_scripts);
+        }
     }
 
     
     [XmlRoot("Scripts")]
-    public class Scripts
+    public class Scripts 
     {
         [XmlElement("Script")]
-        public List<Script> ScriptList { get; set; }
+        public List<Script> List { get; set; }
 
     }
 
-    public class Script : IXmlConfigEntity
+    public class Script
     {
         [XmlElement("Type")]
-        public ScriptType Type { get; set; }
+        public string Type { get; set; }
         
         [XmlElement("Name")]
         public string Name { get; set;}
@@ -128,9 +143,4 @@ namespace ScriptHub.Model
         
     }
 
-    public enum ScriptType
-    {
-        Unknown = 0,
-        Powershell = 1
-    }
 }

@@ -16,8 +16,8 @@ namespace ScriptHub.Model
         IScriptStore _scriptStore;
         List<string> _errors;
         Script _currentScript;
-        IScriptRunnerFactory _scriptRunner;
-        IScriptRunner _psr;
+        IScriptRunnerFactory _scriptRunnerFactory;
+        IScriptRunner _currernRunner;
 
         public event EventHandler ScriptFinished;
         public event EventHandler ErrorReceived;
@@ -36,13 +36,19 @@ namespace ScriptHub.Model
 
             _logger = logger;
 
-            _scriptRunner = scriptRunner;
+            _scriptRunnerFactory = scriptRunner;
         }
 
         public List<Script> GetScripts()
         {
             return _scriptStore.GetScripts();    
         }
+
+        public List<Runner> GetRunners()
+        {
+            return _scriptRunnerFactory.GetRunners();
+        }
+
 
         public Script GetScript(int index)
         {
@@ -89,7 +95,7 @@ namespace ScriptHub.Model
 
         public void StopScript()
         {
-            _psr.Kill();
+            _currernRunner.Kill();
         }
 
         public void StartScript(int scriptIndex)
@@ -100,13 +106,13 @@ namespace ScriptHub.Model
 
             _logger.LogStamp(_currentScript.Name);
 
-            _psr = _scriptRunner.CreateScriptRunner(_currentScript);
+            _currernRunner = _scriptRunnerFactory.CreateScriptRunner(_currentScript);
 
-            _psr.OutputDataReceived += WriteOutput;
-            _psr.ErrorReceived += WriteErrorOutput;
-            _psr.Done += Done;
+            _currernRunner.OutputDataReceived += WriteOutput;
+            _currernRunner.ErrorReceived += WriteErrorOutput;
+            _currernRunner.Done += Done;
 
-            _psr.RunScript();
+            _currernRunner.RunScript();
         }
 
         public void OpenInISE(int scriptIndex)

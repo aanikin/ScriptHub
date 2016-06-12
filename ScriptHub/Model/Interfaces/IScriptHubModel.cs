@@ -27,5 +27,7 @@ namespace ScriptHub.Model.Interfaces
         event DataReceivedEventHandler OutputDataReceived;
 
         void OpenInISE(int scriptIndex);
+
+        List<Runner> GetRunners();
     }
 }

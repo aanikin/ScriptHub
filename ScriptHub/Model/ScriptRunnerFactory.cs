@@ -1,12 +1,8 @@
 ﻿using ScriptHub.Model.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-using ScriptHub.Model.Interfaces;
 
 
 namespace ScriptHub.Model
@@ -24,16 +20,22 @@ namespace ScriptHub.Model
             }
             _config = config;
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             _runners = _config.Load();
         }
-        public Runners GetRunners()
+
+        public List<Runner> GetRunners()
         {
-            return _runners;
+            return _runners.List;
         }        
 
         public IScriptRunner CreateScriptRunner(Script script)
         {
-            var runner = _runners.RunnersList.FirstOrDefault<Runner>(r => r.Type == script.Type);
+            var runner = _runners.List.FirstOrDefault<Runner>(r => r.Type == script.Type);
            
             if (runner == null)
             {
@@ -45,21 +47,17 @@ namespace ScriptHub.Model
     }
 
     [XmlRoot("Runners")]
-    public class Runners
+    public class Runners 
     {
         [XmlElement("Runner")]
-        public List<Runner> RunnersList { get; set; }
+        public List<Runner> List { get; set; }
 
     }
 
-    public class Runner : IXmlConfigEntity
+    public class Runner 
     {
         [XmlElement("Type")]
-        public ScriptType Type { get; set; }
-
-        [XmlElement("Name")]
-        public string Name { get; set; }
-        
+        public string Type { get; set; }
 
         [XmlElement("Executable")]
         public string Executable { get; set; }

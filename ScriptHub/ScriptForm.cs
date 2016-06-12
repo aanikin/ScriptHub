@@ -37,6 +37,8 @@ namespace ScriptHub
             }
 
             _model = model;
+
+
             _scriptIndex = index;
             if (_scriptIndex == ADD_NEW)
             {
@@ -54,6 +56,20 @@ namespace ScriptHub
 
         private void FillForm()
         {
+            runnersComboBox.Items.Clear();
+            foreach (var runner in _model.GetRunners())
+            {
+                runnersComboBox.Items.Add(runner.Type);
+            }
+            if (!string.IsNullOrEmpty(_scriptToEdit.Type))
+            {
+                runnersComboBox.Text = _scriptToEdit.Type;
+            }
+            else
+            {
+                runnersComboBox.SelectedIndex = 0;
+            }
+
             NameBox.Text = _scriptToEdit.Name;
             PathBox.Text = _scriptToEdit.Path;
             ArgumentsBox.Text = _scriptToEdit.Arguments;
@@ -78,13 +94,14 @@ namespace ScriptHub
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(PathBox.Text))
+            if (!File.Exists(PathBox.Text) || string.IsNullOrEmpty(NameBox.Text))
             {
-                MessageBox.Show("Script file doesn't exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wrong script data. Possible some fields empty or wrong path to sript file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             _scriptToEdit = new Script {
+                Type = runnersComboBox.Text,
                 Name = NameBox.Text,
                 Path = PathBox.Text,
                 Arguments = ArgumentsBox.Text,

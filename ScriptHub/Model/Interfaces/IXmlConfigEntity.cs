@@ -9,7 +9,7 @@ namespace ScriptHub.Model.Interfaces
     public interface IXmlConfigEntity
     {
         [XmlElement("Type")]
-        ScriptType Type { get; set; }
+        string Type { get; set; }
 
         [XmlElement("Name")]
         string Name { get; set; }

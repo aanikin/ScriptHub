@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace ScriptHub.Model
 {
-    public class ConfigFile<T> : IConfigFile<T> 
+    public class ConfigFile<T> : IConfigFile<T>
     {
         string _configFile;
 
@@ -35,11 +35,6 @@ namespace ScriptHub.Model
                 data = (T)serializer.Deserialize(fileStream);
             }
 
-            //if (_scripts.ScriptList.Select(x => x.Name).Distinct().Count() != _scripts.ScriptList.Count)
-            // {
-            //    throw new Exception("Scripts have duplicate names of scripts! Please fix scripts.config.");
-            //}
-
             return data;
         }
 
@@ -47,9 +42,7 @@ namespace ScriptHub.Model
         {
             var serializer = new XmlSerializer(typeof(T));
 
-            // SortListByName();
-
-            //  BackupConfigFile();
+            BackupConfigFile();
         
             using (FileStream fileStream = new FileStream(_configFile, FileMode.CreateNew))
             {
@@ -57,6 +50,14 @@ namespace ScriptHub.Model
             }
 
         }
+
+        private void BackupConfigFile()
+        {
+            File.Delete(_configFile + ".backup");
+            File.Move(_configFile, _configFile + ".backup");
+        }
+
+
 
     }
 }
