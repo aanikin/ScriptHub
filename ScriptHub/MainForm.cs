@@ -90,16 +90,22 @@ namespace ScriptHub
 
         private void UpdateControlsOnRun()
         {
-            ErrorOutput.Items.Clear();
+            ClearErrors();
            
             RunButton.Enabled = false;
             StopButton.Enabled = true;
            
             StatusText.Text = "Running...";
-
+            
             var script = _model.GetScript(ScriptsBox.SelectedIndex);
-            PathLabel.Text = " Script: " + script.Path + " " + script.Arguments;
+            PathLabel.Text = " Current script: " + script.Path + " " + script.Arguments;
             DetailsLabel.Text = " Description: " + script.Details;
+        }
+
+        private void ClearErrors()
+        {
+            ErrorOutput.Items.Clear();
+            ErrorsCount.Text = "No errors";
         }
 
         private void UpdateControlsOnStop()
