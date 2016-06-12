@@ -26,6 +26,11 @@ namespace ScriptHub
 
             _model = model as ScriptHubModel;
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             SubscribeForEvents();
 
             LoadScripts();
