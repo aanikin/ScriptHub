@@ -30,7 +30,7 @@ namespace ScriptHub.Model
             SetupProcess();
         }
 
-        public void Run()
+        public void RunScript()
         {
             Task.Run(() =>
             {
@@ -40,7 +40,7 @@ namespace ScriptHub.Model
             });
         }
 
-        public void Stop()
+        public void StopScript()
         {
             if (!_runnerProcess.HasExited)
             {
@@ -48,6 +48,15 @@ namespace ScriptHub.Model
                 //_runnerProcess.Kill();
             }
         }
+
+        public void Dispose()
+        {
+            if (_runnerProcess != null)
+            {
+                _runnerProcess.Dispose();
+            }
+        }
+
 
         private void SetupProcess()
         {
@@ -58,8 +67,6 @@ namespace ScriptHub.Model
             _runnerProcess.OutputDataReceived += WriteOutput;
             _runnerProcess.ErrorDataReceived += ErrorOutput;
             _runnerProcess.Exited += Exited;
-
-            var str = string.Format(_runner.CommandLine, _script.Path, _script.Arguments);
 
             _runnerProcess.StartInfo = new System.Diagnostics.ProcessStartInfo
             {
@@ -112,6 +119,5 @@ namespace ScriptHub.Model
         }
 
 
-       
     }
 }

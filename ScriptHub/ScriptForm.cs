@@ -24,40 +24,48 @@ namespace ScriptHub
 
 
         public Script CurrentScript { 
-            get { 
+            get 
+            { 
                 return _scriptToEdit; 
             }
         }
-        public ScriptForm(IScriptHubModel model, int index = ADD_NEW)
+
+        public ScriptForm(IScriptHubModel model)
         {
-            InitializeComponent();
             if (model == null)
             {
                 throw new ArgumentNullException("model");
             }
 
+            InitializeComponent();
+
             _model = model;
 
+            _scriptToEdit = new Script();
+            Text = "Add new script";
+
+            _scriptIndex = ADD_NEW;
+        }
+        public ScriptForm(IScriptHubModel model, int index) : this(model)
+        {
+            if (index < 0)
+            {
+                throw new IndexOutOfRangeException("index");
+            }
 
             _scriptIndex = index;
-            if (_scriptIndex == ADD_NEW)
-            {
-                _scriptToEdit = new Script();
-                InitializeToAddNewScript();
-            }
-            else
-            {
-                _scriptToEdit = _model.GetScript(index);
-                InitializeToEditScript();
-            }
 
+            _scriptToEdit = _model.Scripts[index];
+
+            Text = "Edit \"" + _scriptToEdit.Name + "\"";
+            
             FillForm();
         }
 
         private void FillForm()
         {
             runnersComboBox.Items.Clear();
-            foreach (var runner in _model.GetRunners())
+            foreach (var runner in _model.Runners)
             {
                 runnersComboBox.Items.Add(runner.Type);
             }
@@ -81,22 +89,12 @@ namespace ScriptHub
             }
         }
 
-        private void InitializeToEditScript()
-        {
-            Text = "Edit \"" + _scriptToEdit.Name + "\"";
-        }
-
-        private void InitializeToAddNewScript()
-        {
-            Text = "Add new script";
-
-        }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
             if (!File.Exists(PathBox.Text) || string.IsNullOrEmpty(NameBox.Text))
             {
-                MessageBox.Show("Wrong script data. Possible some fields empty or wrong path to sript file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Wrong script data. Possible some fields empty or wrong path to script file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

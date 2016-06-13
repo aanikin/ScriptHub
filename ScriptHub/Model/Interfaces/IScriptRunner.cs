@@ -3,12 +3,12 @@ using System.Diagnostics;
 
 namespace ScriptHub.Model.Interfaces
 {
-    public interface IScriptRunner
+    public interface IScriptRunner : IDisposable
     {
         event EventHandler Done;
         event EventHandler ErrorReceived;
         event DataReceivedEventHandler OutputDataReceived;
-        void Run();
-        void Stop();
+        void RunScript();
+        void StopScript();
     }
 }

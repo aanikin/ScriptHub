@@ -26,6 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA2204:Literals should be spelled correctly", MessageId = "ScriptHub")]
         private void InitializeComponent()
         {
             this.MainTabControl = new System.Windows.Forms.TabControl();
@@ -268,7 +269,7 @@
             this.statusBar.Name = "statusBar";
             this.statusBar.Size = new System.Drawing.Size(1050, 22);
             this.statusBar.TabIndex = 1;
-            this.statusBar.Text = "statusLine";
+            this.statusBar.Text = "";
             // 
             // StatusText
             // 

@@ -49,9 +49,8 @@ namespace ScriptHub
 
         private void LoadScripts()
         {
-            var scripts = _model.GetScripts();
             ScriptsBox.Items.Clear();
-            foreach (var s in scripts)
+            foreach (var s in _model.Scripts)
             {
                 ScriptsBox.Items.Add(s.Name);
             }
@@ -165,33 +164,42 @@ namespace ScriptHub
 
         private void ErrorOutput_DoubleClick(object sender, EventArgs e)
         {
-             MessageBox.Show(_model.GetError(ErrorOutput.SelectedIndex));
+             MessageBox.Show(_model.GetError(ErrorOutput.SelectedIndex),"Error information",MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification);
         }
 
         
         private void AddButton_Click(object sender, EventArgs e)
         {
-             ScriptForm editScript = new ScriptForm(_model);
-             if (editScript.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-             {
-                 LoadScripts();
-             }
+            using (var editScript = new ScriptForm(_model))
+            {
+                if (editScript.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    LoadScripts();
+                }
+            }
         }
 
         private void EditButton_Click(object sender, EventArgs e)
         {
 
-            ScriptForm editScript = new ScriptForm(_model, ScriptsBox.SelectedIndex);
-            if (editScript.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            using (var editScript = new ScriptForm(_model, ScriptsBox.SelectedIndex))
             {
-                LoadScripts();
+                if (editScript.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    LoadScripts();
+                }
             }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             var script = _model.GetScript(ScriptsBox.SelectedIndex);
-            DialogResult dialogResult = MessageBox.Show("Are you sure to delete script " + script.Name + "?", "Delete script", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Are you sure to delete script " + script.Name + "?", "Delete script", 
+                MessageBoxButtons.YesNo, 
+                MessageBoxIcon.Question, 
+                MessageBoxDefaultButton.Button1, 
+                MessageBoxOptions.ServiceNotification);
+
             if (dialogResult == DialogResult.Yes)
             {
                 _model.DeleteScript(ScriptsBox.SelectedIndex);
@@ -202,7 +210,7 @@ namespace ScriptHub
 
         private void EditinISE_Click_1(object sender, EventArgs e)
         {
-            _model.OpenInISE(ScriptsBox.SelectedIndex);
+            _model.OpenInEditor(ScriptsBox.SelectedIndex);
         }
 
         private void ScriptsBox_SelectedIndexChanged(object sender, EventArgs e)

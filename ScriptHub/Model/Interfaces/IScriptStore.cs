@@ -5,8 +5,10 @@ namespace ScriptHub.Model.Interfaces
 {
     public interface IScriptStore
     {
-        List<Script> GetScripts();
+        List<Script> Scripts { get; }
         Script GetScript(int index);
+
+        int GetScriptIndexByName(string name);
 
         bool AddScript(Script script);
 

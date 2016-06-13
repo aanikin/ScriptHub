@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 
@@ -28,22 +29,51 @@ namespace ScriptHub.Model
             _runners = _config.Load();
         }
 
-        public List<Runner> GetRunners()
+        public List<Runner> Runners
         {
-            return _runners.List;
-        }        
-
+            get
+            {
+                return _runners.List;
+            }
+        }
         public IScriptRunner CreateScriptRunner(Script script)
         {
             var runner = _runners.List.FirstOrDefault<Runner>(r => r.Type == script.Type);
            
             if (runner == null)
             {
-                throw new Exception("Couldn't find runner for script " + script.Name + " with type " + script.Type);
+                throw new RunnerNotFoundException("Couldn't find runner for script " + script.Name + " with type " + script.Type);
             }
 
             return new ScriptRunner(runner, script);
         }
+    }
+
+    [Serializable]
+    public class RunnerNotFoundException : Exception
+    {
+
+        public RunnerNotFoundException()
+            : base()
+        {
+        }
+
+        public RunnerNotFoundException(string message)
+            : base(message)
+        {
+
+        }
+        public RunnerNotFoundException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+
+        }
+        public RunnerNotFoundException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+
+        }
+
     }
 
     [XmlRoot("Runners")]

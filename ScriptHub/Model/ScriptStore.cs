@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 using System.Linq;
 using System;
 using ScriptHub.Model.Interfaces;
+using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace ScriptHub.Model
 {
-    class ScriptStore : IScriptStore
+    public class ScriptStore : IScriptStore
     {
         Scripts _scripts;
         IConfigFile<Scripts> _config;
@@ -37,7 +39,7 @@ namespace ScriptHub.Model
         {
             if (_scripts.List.Select(x => x.Name).Distinct().Count() != _scripts.List.Count)
             {
-                throw new Exception("Scripts have duplicate names of scripts! Please fix scripts.config.");
+                throw new ScriptNotUniqueException("Scripts have duplicate names of scripts! Please fix scripts.config.");
             }
         }
         private void SortListByName()
@@ -45,14 +47,21 @@ namespace ScriptHub.Model
            _scripts.List = _scripts.List.OrderBy(x => x.Name).ToList();
         }
 
-        public List<Script> GetScripts()
+        public List<Script> Scripts
         {
-            return _scripts.List;
+            get
+            {
+                return _scripts.List;
+            }
         }
 
         public Script GetScript(int index)
         {
-            return GetScripts()[index];
+            return Scripts[index];
+        }
+        public int GetScriptIndexByName(string name)
+        {
+            return Scripts.FindIndex(x => x.Name == name);
         }
 
         public bool AddScript(Script script)
@@ -72,7 +81,12 @@ namespace ScriptHub.Model
        
         public bool UpdateScript(int index, Script script)
         {
-            if (_scripts.List[index].Name == script.Name)
+            if (script == null)
+            {
+                throw new ArgumentNullException("script");
+            }
+
+            if (_scripts.List[index].Name == script.Name) // Updating the same script
             {
                 _scripts.List[index] = script;
             } else
@@ -100,7 +114,7 @@ namespace ScriptHub.Model
 
         public bool CheckUnique(Script script)
         {
-            if (_scripts.List.FirstOrDefault(x => x.Name.ToLower() == script.Name.ToLower()) != null)
+            if (_scripts.List.FirstOrDefault(x => x.Name.ToLower(CultureInfo.CurrentCulture) == script.Name.ToLower(CultureInfo.CurrentCulture)) != null)
             {
                 return false;
             }
@@ -113,9 +127,38 @@ namespace ScriptHub.Model
             SortListByName();
             _config.Save(_scripts);
         }
+
+
+        
     }
 
-    
+    [Serializable]
+    public class ScriptNotUniqueException: Exception
+    {
+
+        public ScriptNotUniqueException()
+            : base()
+        {
+        }
+
+        public ScriptNotUniqueException(string message)
+            : base(message)
+        { 
+
+        }
+        public ScriptNotUniqueException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+
+        }
+        public ScriptNotUniqueException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+		{
+		
+		}
+
+    }
+
     [XmlRoot("Scripts")]
     public class Scripts 
     {

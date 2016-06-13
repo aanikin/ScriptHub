@@ -39,14 +39,20 @@ namespace ScriptHub.Model
             _scriptRunnerFactory = scriptRunner;
         }
 
-        public List<Script> GetScripts()
+        public List<Script> Scripts
         {
-            return _scriptStore.GetScripts();    
+            get
+            {
+                return _scriptStore.Scripts;   
+            }
         }
 
-        public List<Runner> GetRunners()
+        public List<Runner> Runners
         {
-            return _scriptRunnerFactory.GetRunners();
+            get
+            {
+                return _scriptRunnerFactory.Runners;
+            }
         }
 
 
@@ -95,7 +101,7 @@ namespace ScriptHub.Model
 
         public void StopScript()
         {
-            _currentRunner.Stop();
+            _currentRunner.StopScript();
 
             ScriptRunFinished("Stopped");
         }
@@ -114,21 +120,23 @@ namespace ScriptHub.Model
             _currentRunner.ErrorReceived += WriteErrorOutput;
             _currentRunner.Done += Done;
 
-            _currentRunner.Run();
+            _currentRunner.RunScript();
         }
 
-        public void OpenInISE(int scriptIndex)
+        public void OpenInEditor(int scriptIndex)
         {
             var script = _scriptStore.GetScript(scriptIndex);
 
-            var ise = new Process();
-            ise.StartInfo = new System.Diagnostics.ProcessStartInfo
+            using (var ise = new Process())
             {
-                FileName = "PowerShell_ISE.exe",
-                Arguments = " -file " + script.Path,
-                WorkingDirectory = Path.GetDirectoryName(script.Path)
-            };
-            ise.Start();
+                ise.StartInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "PowerShell_ISE.exe",
+                    Arguments = " -file " + script.Path,
+                    WorkingDirectory = Path.GetDirectoryName(script.Path)
+                };
+                ise.Start();
+            }
         }
 
         private void Done(object sender, EventArgs e)

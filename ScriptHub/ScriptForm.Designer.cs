@@ -145,7 +145,7 @@
             // 
             this.openFileDialog.DefaultExt = "ps1";
             this.openFileDialog.Filter = "PowerShell Scripts (*.ps1)|*.ps1";
-            this.openFileDialog.Title = "Open Powershell Script";
+            this.openFileDialog.Title = "Open PowerShell Script";
             // 
             // labelRunner
             // 

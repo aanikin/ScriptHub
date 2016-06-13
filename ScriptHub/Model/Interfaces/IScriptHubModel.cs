@@ -8,7 +8,7 @@ namespace ScriptHub.Model.Interfaces
 {
     public interface IScriptHubModel
     {
-        List<Script> GetScripts();
+        List<Script> Scripts { get; }
         Script GetScript(int index);
         bool AddScript(Script script);
         bool UpdateScript(int index, Script script);
@@ -26,8 +26,8 @@ namespace ScriptHub.Model.Interfaces
         event EventHandler ErrorReceived;
         event DataReceivedEventHandler OutputDataReceived;
 
-        void OpenInISE(int scriptIndex);
+        void OpenInEditor(int scriptIndex);
 
-        List<Runner> GetRunners();
+        List<Runner> Runners { get; }
     }
 }

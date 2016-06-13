@@ -15,17 +15,16 @@ namespace ScriptHub.Model
 
         public ConfigFile(string configFile)
         {
-
-            if (!File.Exists(configFile))
-            {
-                throw new FileNotFoundException(configFile);
-            }
-
             _configFile = configFile;
         }
 
         public T Load()
         {
+            if (!File.Exists(_configFile))
+            {
+                throw new FileNotFoundException(_configFile);
+            }
+
             T data;
 
             var serializer = new XmlSerializer(typeof(T));
@@ -53,8 +52,16 @@ namespace ScriptHub.Model
 
         private void BackupConfigFile()
         {
-            File.Delete(_configFile + ".backup");
-            File.Move(_configFile, _configFile + ".backup");
+            if (File.Exists(_configFile + ".backup"))
+            {
+                File.Delete(_configFile + ".backup");
+            }
+
+            if (File.Exists(_configFile))
+            {
+                File.Move(_configFile, _configFile + ".backup");    
+            }
+            
         }
 
 
