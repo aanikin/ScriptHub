@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ConfigFileTest.cs" />
+    <Compile Include="ScriptRunnerFactoryTests.cs" />
     <Compile Include="ScriptStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,6 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FakeModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\runners.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
