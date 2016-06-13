@@ -121,7 +121,10 @@ namespace ScriptHub
             } 
             else
             {
-                MessageBox.Show("Script with this name already exists. Please choose another name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Script with this name already exists. Please choose another name.", "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error, 
+                    MessageBoxDefaultButton.Button1, 
+                    MessageBoxOptions.ServiceNotification);
             }
         }
 

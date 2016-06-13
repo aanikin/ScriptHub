@@ -52,28 +52,11 @@ namespace ScriptHub.Model
     [Serializable]
     public class RunnerNotFoundException : Exception
     {
-
-        public RunnerNotFoundException()
-            : base()
-        {
-        }
-
         public RunnerNotFoundException(string message)
             : base(message)
         {
 
         }
-        public RunnerNotFoundException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-
-        }
-        public RunnerNotFoundException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-
-        }
-
     }
 
     [XmlRoot("Runners")]

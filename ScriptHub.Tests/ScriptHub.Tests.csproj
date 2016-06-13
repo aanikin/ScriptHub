@@ -54,6 +54,7 @@
     <Compile Include="ScriptRunnerFactoryTests.cs" />
     <Compile Include="ScriptStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptHubDataReceivedEventArgsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScriptHub\ScriptHub.csproj">
