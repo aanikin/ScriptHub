@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ScriptHub.MainForm" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AwBABAIigCkAAQADBiHIADBHA4EBASAI0EAAAIABoIA=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Program" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.ScriptForm" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIgQAEBACABABAAAgCAQAACAAABQAogAQAAQCAAggA=</HashCode>
+      <FileName>ScriptForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Model.ConfigFile&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ConfigFile.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ScriptHub.Model.Logger" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAACAggAAAAAAAABA=</HashCode>
+      <FileName>Model\Logger.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ScriptHub.Model.ScriptHubDataReceivedEventArgs" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ScriptHubDataReceivedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Model.ScriptHubModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AwBAAAIAAAlAAQABAAAIAAACICAAAgAAAAGAIcQ0gAA=</HashCode>
+      <FileName>Model\ScriptHubModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ScriptHub.Model.ScriptRunner" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARBAAAAAAAAIAgAAAAEAAAAAAQABAgAAIAGAAAAAAAI=</HashCode>
+      <FileName>Model\ScriptRunner.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ScriptHub.Model.ScriptRunnerFactory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAQAAAAAAAQAAAAAAAAAAACAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Model\ScriptRunnerFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ScriptHub.Model.Runners" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Model\ScriptRunnerFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Model.Runner" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Model\ScriptRunnerFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Model.ScriptStore" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAIAQAEAAgIAQAABAABAAAAAAAAAgAAAAAAAAAEAAA=</HashCode>
+      <FileName>Model\ScriptStore.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ScriptHub.Model.Scripts" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Model\ScriptStore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Model.Script" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAIAAAAAAAQAAAAAAAAAIQAAAAAAAAA=</HashCode>
+      <FileName>Model\ScriptStore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Properties.Resources" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScriptHub.Properties.Settings" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ScriptHub.Model.Interfaces.IConfigFile&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\IConfigFile.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ScriptHub.Model.Interfaces.ILogger" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\ILogger.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ScriptHub.Model.Interfaces.IScriptHubModel" Collapsed="true">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAkAAQABAAAAAAAAACAAAgAAAAGAIUAkgAA=</HashCode>
+      <FileName>Model\Interfaces\IScriptHubModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ScriptHub.Model.Interfaces.IScriptRunner" Collapsed="true">
+    <Position X="5.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAgAAIAEAAAAAAAI=</HashCode>
+      <FileName>Model\Interfaces\IScriptRunner.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ScriptHub.Model.Interfaces.IScriptRunnerFactory" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\IScriptRunnerFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ScriptHub.Model.Interfaces.IScriptStore" Collapsed="true">
+    <Position X="2.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAgAAQAAAAAAAAAAAAAAAgAAAAAAAAAEAAA=</HashCode>
+      <FileName>Model\Interfaces\IScriptStore.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ScriptHub.Model.Interfaces.IXmlConfigEntity" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Model\Interfaces\IXmlConfigEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
