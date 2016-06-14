@@ -77,6 +77,10 @@ namespace ScriptHub.Model
         
         [XmlElement("CommandLine")]
         public string CommandLine { get; set; }
+
+        [XmlElement("Extensions")]
+        public string Extensions { get; set; }
+
     }
 
 }

@@ -41,7 +41,6 @@ namespace ScriptHub
 
             _model = model;
 
-            _scriptToEdit = new Script();
             Text = "Add new script";
 
             _scriptIndex = ADD_NEW;
@@ -87,6 +86,8 @@ namespace ScriptHub
             {
                 openFileDialog.InitialDirectory = Path.GetDirectoryName(_scriptToEdit.Path);
             }
+
+            
         }
 
 
@@ -135,6 +136,8 @@ namespace ScriptHub
 
         private void OpenFileButton_Click(object sender, EventArgs e)
         {
+            openFileDialog.Filter = _model.Runners[runnersComboBox.SelectedIndex].Extensions;
+
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 PathBox.Text = openFileDialog.FileName;
