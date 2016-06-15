@@ -10,5 +10,9 @@ namespace ScriptHub.Model.Interfaces
         event DataReceivedEventHandler OutputDataReceived;
         void RunScript();
         void StopScript();
+
+        DateTime StartTime { get; set; }
+        TimeSpan Duration { get; set; }
+
     }
 }

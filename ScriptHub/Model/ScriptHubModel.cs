@@ -112,7 +112,7 @@ namespace ScriptHub.Model
 
             _currentScript = _scriptStore.GetScript(scriptIndex);
 
-            _logger.LogStamp(_currentScript.Name);
+            _logger.LogStart(_currentScript.Name);
 
             _currentRunner = _scriptRunnerFactory.CreateScriptRunner(_currentScript);
 
@@ -141,13 +141,15 @@ namespace ScriptHub.Model
 
         private void Done(object sender, EventArgs e)
         {
-            ScriptRunFinished("Done");
+            string logMessage = "Done (Duration:" + _currentRunner.Duration.Seconds + " sec)";
+            ScriptRunFinished(logMessage);
         }
 
         private void ScriptRunFinished(string withMessage)
         {
+            _logger.LogFinish(_currentScript.Name, withMessage);
+            
             ScriptFinished.Invoke(this, new ScriptHubDataReceivedEventArgs(withMessage));
-
             UnsubscibeEvents();
         }
 

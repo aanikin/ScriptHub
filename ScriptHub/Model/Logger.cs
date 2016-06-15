@@ -29,10 +29,17 @@ namespace ScriptHub.Model
 
       
 
-        public void LogStamp(string logName)
+        public void LogStart(string logName)
         {
             var message = "--------------------------------------------------------------------------------------------------\r\n";
             message += "--- EXECUTED by " + System.Security.Principal.WindowsIdentity.GetCurrent().Name + " at " + DateTime.Now + "\r\n";
+
+            WriteToLog(logName, message);
+        }
+
+        public void LogFinish(string logName, string Message)
+        {
+            var message = "--- " + Message.ToUpper() +"\r\n";
 
             WriteToLog(logName, message);
         }

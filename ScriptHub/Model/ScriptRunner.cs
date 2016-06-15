@@ -32,6 +32,8 @@ namespace ScriptHub.Model
 
         public void RunScript()
         {
+            StartTime = DateTime.Now;
+
             Task.Run(() =>
             {
                 _runnerProcess.Start();
@@ -110,14 +112,28 @@ namespace ScriptHub.Model
 
         private void Exited(object sender, EventArgs e)
         {
+            Duration = DateTime.Now - StartTime;
+            _runnerProcess.Close();
+            
             if (Done != null)
             {
                 Done.Invoke(sender, e);
             }
-
-            _runnerProcess.Close();
         }
 
 
+
+
+        public DateTime StartTime
+        {
+            get;
+            set;
+        }
+
+        public TimeSpan Duration
+        {
+            get;
+            set;
+        }
     }
 }

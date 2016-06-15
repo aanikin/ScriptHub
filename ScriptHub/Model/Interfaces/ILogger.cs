@@ -5,6 +5,7 @@ namespace ScriptHub.Model.Interfaces
     {
         void LogToFile(string logName, string message);
 
-        void LogStamp(string logName);
+        void LogStart(string logName);
+        void LogFinish(string logName, string Message);
     }
 }
